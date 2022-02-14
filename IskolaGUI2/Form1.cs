@@ -7,11 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace IskolaGUI2
 {
+
     public partial class Form1 : Form
     {
+        List<tanuló> tanulók = new List<tanuló>();
+        BindingSource bs = null;
         public Form1()
         {
             InitializeComponent();
@@ -29,7 +33,14 @@ namespace IskolaGUI2
 
         private void btnBetöltés_Click(object sender, EventArgs e)
         {
-
+            foreach (var sor in File.ReadAllLines("nevek.txt"))
+            {
+                tanulók.Add(new tanuló(sor));
+            }
+            bs = new BindingSource();
+            bs.DataSource = tanulók;
+            listBox1.DataSource = bs;
+            listBox1.DisplayMember = "Név";
         }
     }
 }
